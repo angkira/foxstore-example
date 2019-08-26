@@ -1,0 +1,36 @@
+$selected-border: rgb(153, 222, 250);
+
+.genesis-form {
+  padding: 25px;
+
+  &-field {
+    box-sizing: border-box;
+    padding: 25px 0;
+    position: relative;
+
+    &__label {
+      position: absolute;
+      top: 0;
+      left: 0;
+      padding: 5px;
+      font-size: 14px;
+      line-height: 15px;
+      transition: .1s ease-out;
+    }
+
+    &.empty {
+      .genesis-form-field__label {
+        top: 25px;
+        left: 7px;
+      }
+    }
+
+    &__input {
+      padding: 5px 10px;
+      border: 1px solid #888;
+      &:focus {
+        border-color: $selected-border;
+      }
+    }
+  }
+}

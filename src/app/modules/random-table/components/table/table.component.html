@@ -1,0 +1,22 @@
+<div class="table">
+  <h2 class="header">Mein table</h2>
+
+  <table class="random-table">
+    <tr class="random-table__col-number">
+      <th class="random-table__col-number-cell"></th>
+      <th class="random-table__col-number-cell" *ngFor="let col of data[0]; let index = index">
+        {{ getLetterFromNumber(index) }}
+      </th>
+    </tr>
+    <tbody class="random-table__body">
+      <tr class="random-table__col-number">
+
+      </tr>
+      <tr class="random-table__row" *ngFor="let row of data; let i = index">
+        <td class="random-table__row-number">{{ i + 1 }}</td>
+        <td class="random-table__cell" *ngFor="let col of row">{{col}}</td>
+      </tr>
+    </tbody>
+
+  </table>
+</div>

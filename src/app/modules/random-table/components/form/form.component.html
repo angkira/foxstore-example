@@ -1,0 +1,10 @@
+<form class="genesis-form" [formGroup]="genesisForm">
+  <div class="genesis-form-field"  [class.empty]="!genesisForm.get('rows').value">
+    <label for="rows" class="genesis-form-field__label">Rows</label>
+    <input type="text" class="genesis-form-field__input" formControlName="rows"/>
+  </div>
+  <div class="genesis-form-field" [class.empty]="!genesisForm.get('columns').value">
+    <label for="columns" class="genesis-form-field__label">Columns</label>
+    <input type="text" class="genesis-form-field__input" formControlName="columns"/>
+  </div>
+</form>
