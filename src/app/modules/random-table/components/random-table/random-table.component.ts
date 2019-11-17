@@ -1,32 +1,45 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
-import { ProtoStore } from 'foxstore';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ProtoStore, createStore, EventScheme } from 'foxstore';
 
+const initState = {
+  rows: 10,
+  columns: 10,
+  data: null,
+};
+
+
+const eventSheme = { // Important that no type setted!
+  storeInited: {
+    effects: [{eventName: 'storeInited', effect: console.log}]
+  }
+}
 @Component({
   selector: 'app-random-table',
   templateUrl: './random-table.component.html',
   styleUrls: ['./random-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RandomTableComponent extends ProtoStore<{
-  rows: number;
-  columns: number;
-  data: number[][];
-}> implements OnInit {
+export class RandomTableComponent
+  // extends ProtoStore<{
+  //   rows: number;
+  //   columns: number;
+  //   data: number[][];
+  // }>
+    implements OnInit {
+
+  store = createStore<typeof initState, typeof eventSheme>(initState, null, null, eventSheme);
 
   constructor() {
-    super({
-      rows: 10,
-      columns: 10,
-      data: null,
-    });
+    // super();
    }
 
   ngOnInit() {
-    this.select().subscribe(console.log);
+    this.store.dispatch('storeInited');
+    this.store.select().subscribe(console.log);
   }
 
   generateData({rows, columns}: {rows: string, columns: string}): void {
-    this.patch({
+    this.store.patch({
       rows: Number(rows),
       columns: Number(columns),
       data: rows && columns && (new Array(Number(rows)))

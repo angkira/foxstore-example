@@ -31,6 +31,9 @@
     }
 
     &-number {
+      position: sticky;
+      left: 0;
+      background-color: rgb(241, 239, 239);
       padding: 5px;
       text-align: center;
       border-right: #ccc 1px solid;
