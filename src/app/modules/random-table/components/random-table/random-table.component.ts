@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { ProtoStore, createStore, EventScheme } from 'foxstore';
+import { ProtoStore, createStore, EventSchemeType, schemeGen } from 'foxstore';
 
 const initState = {
   rows: 10,
@@ -8,11 +8,11 @@ const initState = {
 };
 
 
-const eventSheme = { // Important that no type setted!
+const eventSheme = schemeGen({ // Important that no type setted!
   storeInited: {
     effects: [{eventName: 'storeInited', effect: console.log}]
   }
-}
+});
 @Component({
   selector: 'app-random-table',
   templateUrl: './random-table.component.html',
@@ -34,7 +34,7 @@ export class RandomTableComponent
    }
 
   ngOnInit() {
-    this.store.dispatch('storeInited');
+    this.store.dispatch<void>('storeInited');
     this.store.select().subscribe(console.log);
   }
 
