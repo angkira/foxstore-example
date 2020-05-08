@@ -1,8 +1,8 @@
 <div class="wrapper">
   <app-form (update)="generateData($event)"></app-form>
   <app-table
-    *ngIf="store.select('data') | async as data"
-    [columns]="store.select('columns') | async"
-    [rows]="store.select('rows') | async"
+    *ngIf="data$ | async as data"
+    [columns]="columns$ | async"
+    [rows]="rows$ | async"
     [data]="data"></app-table>
 </div>

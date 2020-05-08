@@ -4,6 +4,7 @@ import { FormComponent } from './components/form/form.component';
 import { TableComponent } from './components/table/table.component';
 import { RandomTableComponent } from './components/random-table/random-table.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { StoreService } from './store.service';
 
 
 
@@ -16,6 +17,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     ReactiveFormsModule,
   ],
+  providers: [StoreService],
   exports: [RandomTableComponent]
 })
 export class RandomTableModule { }

@@ -1,18 +1,8 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ProtoStore, createStore, EventSchemeType, schemeGen } from 'foxstore';
+import { initState, eventSheme, StoreService } from '../../store.service';
+import { Observable } from 'rxjs';
 
-const initState = {
-  rows: 10,
-  columns: 10,
-  data: null,
-};
-
-
-const eventSheme = schemeGen({ // Important that no type setted!
-  storeInited: {
-    effects: [{eventName: 'storeInited', effect: console.log}]
-  }
-});
 @Component({
   selector: 'app-random-table',
   templateUrl: './random-table.component.html',
@@ -27,10 +17,17 @@ export class RandomTableComponent
   // }>
     implements OnInit {
 
-  store = createStore<typeof initState, typeof eventSheme>(initState, null, null, eventSheme);
+  // store = createStore<typeof initState, typeof eventSheme>(initState, null, null, eventSheme);
 
-  constructor() {
+  rows$: Observable<number>;
+  columns$: Observable<number>;
+  data$: Observable<number[][]>;
+
+  constructor(private store: StoreService) {
     // super();
+    this.rows$ = store.select('rows') as Observable<number>;
+    this.columns$ = store.select('columns') as Observable<number>;
+    this.data$ = store.select('data') as Observable<number[][]>;
    }
 
   ngOnInit() {
