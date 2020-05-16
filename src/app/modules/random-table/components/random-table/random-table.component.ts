@@ -32,7 +32,7 @@ export class RandomTableComponent
 
   ngOnInit() {
     this.store.dispatch<void>('storeInited');
-    this.store.select().subscribe(console.log);
+    this.store.select('data').subscribe(console.log, console.error);
   }
 
   generateData({rows, columns}: {rows: string, columns: string}): void {

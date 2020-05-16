@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Store, schemeGen, ProtoStore } from 'foxstore';
+import { Injectable, ApplicationRef, Inject } from '@angular/core';
+import { Store, schemeGen, ProtoStore, Effect, Action, Event } from 'foxstore';
 
 export const initState = {
   rows: 10,
@@ -12,20 +12,29 @@ export const eventSheme = schemeGen({ // Important that no type setted!
     effects: [{eventName: 'storeInited', effect: console.log}]
   }
 });
-
 @Injectable({
   providedIn: 'root'
 })
-@Store(initState, null, eventSheme)
+// @Store()
 export class StoreService
   extends ProtoStore<{
     rows: number;
     columns: number;
     data: number[][];
   }> {
+  constructor(private app: ApplicationRef) {
+    super(initState, null, null, eventSheme);
+    console.log('hall', this.app);
+   }
 
-  constructor() {
-    super(initState);
-    console.log('hallo');
+   @Action('storeInited')
+   log() {
+     console.log('huinya');
+     return new Event('hui')
+   }
+
+   @Effect('hui')
+   loger() {
+     console.log('huinya takaya');
    }
 }
