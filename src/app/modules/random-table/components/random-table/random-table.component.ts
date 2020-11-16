@@ -44,6 +44,7 @@ export class RandomTableComponent
           .fill(0)
           .map(Math.random)
           ),
-    })
+      status: 'hui',
+    });
   }
 }
