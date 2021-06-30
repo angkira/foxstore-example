@@ -9,14 +9,20 @@
       </th>
     </tr>
     <tbody class="random-table__body">
-      <tr class="random-table__col-number">
+        <tr class="random-table__col-number">
 
-      </tr>
-      <tr class="random-table__row" *ngFor="let row of data; let i = index">
-        <td class="random-table__row-number">{{ i + 1 }}</td>
-        <td class="random-table__cell" *ngFor="let col of row">{{col}}</td>
-      </tr>
+          </tr>
+      <cdk-virtual-scroll-viewport
+        [style.width]="'100vw'"
+        [style.height]="'65vh'"
+        itemSize="50">
+        <tr class="random-table__row" *cdkVirtualFor="let row of data; let i = index">
+            <td class="random-table__row-number">{{ i + 1 }}</td>
+            <td class="random-table__cell" *ngFor="let col of row">{{ col }}</td>
+          </tr>
+      </cdk-virtual-scroll-viewport>
     </tbody>
 
   </table>
+
 </div>

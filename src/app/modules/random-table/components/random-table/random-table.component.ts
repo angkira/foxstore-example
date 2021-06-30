@@ -25,18 +25,23 @@ export class RandomTableComponent
 
   constructor(private store: StoreService) {
     // super();
-    this.rows$ = store.select('rows') as Observable<number>;
-    this.columns$ = store.select('columns') as Observable<number>;
-    this.data$ = store.select('data') as Observable<number[][]>;
    }
 
   ngOnInit() {
     this.store.dispatch<void>('storeInited');
-    this.store.select('data').subscribe(console.log, console.error);
+
+    this.rows$ = this.store.select('rows') as Observable<number>;
+
+    this.columns$ = this.store.select('columns') as Observable<number>;
+
+    this.data$ = this.store.select('data') as Observable<number[][]>;
   }
 
   generateData({rows, columns}: {rows: string, columns: string}): void {
-    this.store.patch({
+    this.store.dispatch('RowsNumberChanged', Number(rows));
+    this.store.dispatch('ColsNumberChanged', Number(columns));
+
+    this.store.dispatch('DataChanged', {
       rows: Number(rows),
       columns: Number(columns),
       data: rows && columns && (new Array(Number(rows)))
