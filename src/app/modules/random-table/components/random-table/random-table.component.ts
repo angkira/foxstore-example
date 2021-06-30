@@ -38,7 +38,7 @@ export class RandomTableComponent
   }
 
   generateData({rows, columns}: {rows: string, columns: string}): void {
-    this.store.dispatch('RowsNumberChanged', Number(rows));
+    // this.store.dispatch('RowsNumberChanged', Number(rows));
     this.store.dispatch('ColsNumberChanged', Number(columns));
 
     this.store.dispatch('DataChanged', {

@@ -66,4 +66,11 @@ export class StoreService
 
      return payload;
    }
+
+   @Reducer('DataChanged')
+  change(payload: Partial<State>) {
+    console.warn('reducerккк');
+
+    return payload;
+  }
 }

@@ -3955,10 +3955,10 @@ forwarded@0.2.0:
   resolved "https://registry.yarnpkg.com/forwarded/-/forwarded-0.2.0.tgz#2269936428aad4c15c7ebe9779a84bf0b2a81811"
   integrity sha512-buRG0fpBtRHSTCOASe6hD258tEubFoRLb4ZNA6NxMVHNw2gOcwHo9wyablzMzOA5z9xA9L1KNjk/Nt6MT9aYow==
 
-foxstore@^2.9.17:
-  version "2.9.17"
-  resolved "https://registry.yarnpkg.com/foxstore/-/foxstore-2.9.17.tgz#73f1fdc632343982f17f11a7768927a80758affc"
-  integrity sha512-f9/Y2qs8iaGiR+ko42Ib9C0tsNqsGLdFlx3/FjSuygsaxXOfZbBnUP/roHp+ypbnCySzUJxazWVq5x2GWrYETQ==
+foxstore@^2.9.18:
+  version "2.9.18"
+  resolved "https://registry.yarnpkg.com/foxstore/-/foxstore-2.9.18.tgz#d38f1543bbd737baa17479ecb5e7e59c840ed20f"
+  integrity sha512-HW0d6CJKhpVx3P0c+p9KIBZOkcYw+XkgsAJ0K56Alos6xqMLefAQzQkqyg9892DVyfUN8BitfXr+TcB80zK8OA==
   dependencies:
     "@types/ramda" "^0.27.39"
     eslint "^7.19.0"
