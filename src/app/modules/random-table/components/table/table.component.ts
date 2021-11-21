@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-table',
@@ -14,8 +14,6 @@ export class TableComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log(this.rows, this.columns, this.data);
-
   }
 
   getLetterFromNumber(num: number): string {

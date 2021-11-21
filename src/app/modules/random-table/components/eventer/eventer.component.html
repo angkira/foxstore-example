@@ -1,0 +1,5 @@
+<div>
+  <button *ngFor="let event of events" (click)="store.dispatch(event)">
+    {{ event }}
+  </button>
+</div>

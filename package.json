@@ -20,7 +20,7 @@
     "@angular/platform-browser": "^13.0.0",
     "@angular/platform-browser-dynamic": "^13.0.0",
     "@angular/router": "^13.0.0",
-    "foxstore": "^2.9.18",
+    "foxstore": "^3.0.2",
     "rxjs": "^7.4.0",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"

@@ -1,9 +1,14 @@
 <div class="wrapper">
-    <app-form (update)="generateData($event)"></app-form>
-    <app-table
-      *ngIf="data$ | async as data"
-      [columns]="columns$ | async"
-      [rows]="rows$ | async"
-      [data]="data"
-      ></app-table>
+  <app-form
+    (update)="generateData($event)"
+    (updateRows)="updateRows($event)"
+    (updateColumns)="updateCols($event)"
+  ></app-form>
+  <button (click)="store.dispatch('UpdateData')">Обновить</button>
+  <app-table
+    *ngIf="data$ | async as data"
+    [columns]="columns$ | async"
+    [rows]="rows$ | async"
+    [data]="data"
+  ></app-table>
 </div>

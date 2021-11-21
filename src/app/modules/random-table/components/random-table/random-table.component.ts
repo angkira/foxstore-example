@@ -1,7 +1,7 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { ProtoStore, createStore, EventSchemeType, schemeGen } from 'foxstore';
-import { initState, eventSheme, StoreService } from '../../store.service';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
+
+import { StoreService } from '../../store.service';
 
 @Component({
   selector: 'app-random-table',
@@ -23,32 +23,34 @@ export class RandomTableComponent
   columns$: Observable<number>;
   data$: Observable<number[][]>;
 
-  constructor(private store: StoreService) {
+  constructor(public store: StoreService) {
     // super();
    }
 
   ngOnInit() {
-    this.store.dispatch<void>('storeInited');
+    this.store.dispatch('storeInited');
+    this.store.dispatch('hui')
 
-    this.rows$ = this.store.select('rows') as Observable<number>;
+    this.rows$ = this.store.select('rows');
 
-    this.columns$ = this.store.select('columns') as Observable<number>;
+    this.columns$ = this.store.select('columns');
 
-    this.data$ = this.store.select('data') as Observable<number[][]>;
+    this.data$ = this.store.select('data');
+  }
+
+  updateRows(rows: string): StoreService{
+      return this.store.dispatch('RowsNumberChanged', Number(rows));
+  }
+
+  updateCols(cols: string): StoreService{
+      return this.store.dispatch('ColsNumberChanged', Number(cols));
   }
 
   generateData({rows, columns}: {rows: string, columns: string}): void {
-    // this.store.dispatch('RowsNumberChanged', Number(rows));
-    this.store.dispatch('ColsNumberChanged', Number(columns));
+    this.store.dispatch('DataChanged');
+  }
 
-    this.store.dispatch('DataChanged', {
-      rows: Number(rows),
-      columns: Number(columns),
-      data: rows && columns && (new Array(Number(rows)))
-        .fill((new Array(Number(columns)))
-          .fill(0)
-          .map(Math.random)
-          ),
-    })
+  updateData(e) {
+    this.store.dispatch('UpdateData');
   }
 }

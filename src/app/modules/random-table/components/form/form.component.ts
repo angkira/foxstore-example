@@ -1,7 +1,12 @@
-import { Component, OnInit, ChangeDetectionStrategy, Output } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { distinctUntilChanged, tap, startWith, debounceTime } from 'rxjs/operators';
+import { ChangeDetectionStrategy, Component, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, startWith } from 'rxjs/operators';
+
+type FormModel = {
+    columns: number,
+    rows: number,
+}
 
 @Component({
   selector: 'app-form',
@@ -16,7 +21,9 @@ export class FormComponent implements OnInit {
   };
 
   genesisForm: FormGroup;
-  @Output() update: Observable<number[]>;
+  @Output() update: Observable<FormModel>;
+  @Output() updateRows: Observable<number>;
+  @Output() updateColumns: Observable<number>;
 
   constructor(fb: FormBuilder) {
     this.genesisForm = fb.group(FormComponent.formModel);
@@ -24,7 +31,17 @@ export class FormComponent implements OnInit {
       startWith(this.genesisForm.value),
       distinctUntilChanged(),
       debounceTime(300),
-      );
+    );
+
+    this.updateRows = this.update.pipe(
+      map(m => m.rows),
+      distinctUntilChanged(),
+    );
+
+    this.updateColumns = this.update.pipe(
+      map(m => m.columns),
+      distinctUntilChanged(),
+    );
   }
 
   ngOnInit() {

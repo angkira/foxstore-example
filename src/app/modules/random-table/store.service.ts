@@ -1,40 +1,69 @@
-import { Injectable, ApplicationRef, Inject } from '@angular/core';
-import { Store, schemeGen, ProtoStore, Effect, Action, Event, Reducer } from 'foxstore';
+import { Injectable } from '@angular/core';
+import { asapScheduler } from 'rxjs';
 
-export const initState = {
-  rows: 10,
-  columns: 10,
-  data: null,
-};
+import { Action, createHandlers, Effect, Event, ProtoStore, Reducer } from '../../../../../foxstore/src/core';
+import { LocalStorageSaver } from '../../../../../foxstore/src/saving/LocalStorageSaver';
 
-export const eventSheme = schemeGen({ // Important that no type setted!
-  storeInited: {
-    effects: [{eventName: 'storeInited', effect: console.log}]
-  }
-});
 type State = {
   rows: number;
   columns: number;
   data: number[][];
 };
 
+export const initState: State = {
+  rows: 10,
+  columns: 10,
+  data: null,
+};
+
+export const eventSheme = { // Important that no type setted!
+  storeInited: {
+    effects: [{ eventName: 'storeInited', handler: console.log }]
+  },
+  RowsNumberChanged: createHandlers<State, number>({
+    reducers: [
+      [rows => ({ rows }), {}],
+    ]
+  })('RowsNumberChanged'),
+  ColsNumberChanged: createHandlers<State, number>({
+    reducers: [
+      [columns => ({ columns }), {}],
+    ]
+  })('ColsNumberChanged')
+};
+
+
 @Injectable({
   providedIn: 'root'
 })
 export class StoreService
-  extends ProtoStore<State> {
-  constructor(private app: ApplicationRef) {
-    super(initState, {
-      logOn: true,
+  extends ProtoStore<State, typeof eventSheme> {
+  constructor() {
+    super(initState, eventSheme, {
+      storeName: 'TableStore',
       logOptions: {
+        logOn: true,
         events: true,
+        reducers: true,
+        actions: true,
+        effects: true,
+        state: true,
+        logger: console.log,
       },
-    }, null, eventSheme);
-    console.log('hall', this.app);
+      dispatcher: {
+        scheduler: asapScheduler,
+      },
+      saving: {
+        saver: LocalStorageSaver,
+        keysToSave: ['data'],
+      },
+    });
+
+    window['Store'] = this;
    }
 
    @Action('storeInited')
-   log() {
+   logg() {
      console.log('huinya');
      return new Event('hui')
    }
@@ -44,33 +73,45 @@ export class StoreService
      console.log('huinya takaya');
    }
 
-   @Reducer('RowsNumberChanged')
-   setRows(rows: number): Partial<State> {
-     return { rows }
-   }
+  //  @Reducer('RowsNumberChanged')
+  //  setRows(rows: number): Partial<State> {
+  //    return { rows }
+  //  }
 
-   @Reducer('ColsNumberChanged')
-   setCols(columns: number): Partial<State> {
-     return { columns }
-   }
+  //  @Reducer('ColsNumberChanged')
+  //  setCols(columns: number): Partial<State> {
+  //    return { columns }
+  //  }
 
    @Reducer('DataChanged', { requiredEvents: {
-     mode: 'once',
+     always: true,
      eventNames: [
        'RowsNumberChanged',
        'ColsNumberChanged',
+      //  'UpdateData'
      ],
    }})
-   changeData(payload: Partial<State>) {
-     console.warn('reducer');
+   changeData(
+     payload: Partial<State>,
+     { rows, columns }: Partial<State>,
+   ) {
+    console.warn('Once required');
 
-     return payload;
+     return {
+         data: rows && columns && (new Array(Number(rows)))
+          .fill((new Array(Number(columns)))
+            .fill(0)
+            .map(Math.random)
+            ),
+     };
    }
 
-   @Reducer('DataChanged')
-  change(payload: Partial<State>) {
-    console.warn('reducerккк');
-
-    return payload;
+  @Effect('Third', {
+    requiredEvents: {
+      always: true,
+      eventNames: ['First', 'Second']
+  }})
+  required(): void {
+    console.warn('Third Event handler!')
   }
 }
